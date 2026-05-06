@@ -1,0 +1,38 @@
+{
+	"name": "SetVariable",
+	"properties": {
+		"activities": [
+			{
+				"name": "Set variable1",
+				"type": "SetVariable",
+				"dependsOn": [],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "LoacalVarible",
+					"value": {
+						"value": "@replace(pipeline().parameters.paramerer,'Swamy','')",
+						"type": "Expression"
+					}
+				}
+			}
+		],
+		"parameters": {
+			"paramerer": {
+				"type": "string",
+				"defaultValue": "TirupathiSwamy"
+			}
+		},
+		"variables": {
+			"LoacalVarible": {
+				"type": "String"
+			}
+		},
+		"annotations": [],
+		"lastPublishTime": "2026-05-01T08:43:49Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

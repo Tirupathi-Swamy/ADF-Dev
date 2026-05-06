@@ -1,0 +1,39 @@
+{
+	"name": "SqlServer2",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"parameters": {
+			"ServerName": {
+				"type": "string",
+				"defaultValue": "DESKTOP-RP13NB0\\SSIS"
+			},
+			"DbName": {
+				"type": "string",
+				"defaultValue": "dw"
+			},
+			"User": {
+				"type": "string",
+				"defaultValue": "sa"
+			},
+			"Password": {
+				"type": "string",
+				"defaultValue": "Swamy@123"
+			}
+		},
+		"annotations": [],
+		"type": "SqlServer",
+		"typeProperties": {
+			"server": "@{linkedService().ServerName}",
+			"database": "@{linkedService().DbName}",
+			"encrypt": "optional",
+			"trustServerCertificate": false,
+			"authenticationType": "SQL",
+			"userName": "@{linkedService().User}",
+			"password": "@{linkedService().Password}"
+		},
+		"connectVia": {
+			"referenceName": "onprime-ir",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}

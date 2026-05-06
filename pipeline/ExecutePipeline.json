@@ -1,0 +1,29 @@
+{
+	"name": "ExecutePipeline",
+	"properties": {
+		"activities": [
+			{
+				"name": "Execute Pipeline1",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "Chiled",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true,
+					"parameters": {
+						"P_Chiledvalue": "mech"
+					}
+				}
+			}
+		],
+		"annotations": [],
+		"lastPublishTime": "2026-05-01T17:19:23Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

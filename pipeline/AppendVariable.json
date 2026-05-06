@@ -1,0 +1,35 @@
+{
+	"name": "AppendVariable",
+	"properties": {
+		"activities": [
+			{
+				"name": "Set variable1",
+				"type": "SetVariable",
+				"dependsOn": [],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "AppendVariable",
+					"value": [
+						"jalasutrapu"
+					]
+				}
+			}
+		],
+		"variables": {
+			"AppendVariable": {
+				"type": "Array",
+				"defaultValue": [
+					"Tirupathi",
+					"swamy"
+				]
+			}
+		},
+		"annotations": [],
+		"lastPublishTime": "2026-05-01T08:43:49Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

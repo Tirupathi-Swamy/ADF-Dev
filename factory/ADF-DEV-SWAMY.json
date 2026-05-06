@@ -1,0 +1,15 @@
+{
+	"name": "ADF-DEV-SWAMY",
+	"properties": {
+		"trustModeClaimForMi": {
+			"value": "Enabled",
+			"editable": true
+		}
+	},
+	"location": "eastus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "884351dc-8423-4fa2-a0a5-fcda84c68916",
+		"tenantId": "4de48a5c-6787-45dd-a11d-76a7749a23ce"
+	}
+}

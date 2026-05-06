@@ -1,0 +1,125 @@
+{
+	"name": "ConditionSplitTransformation",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "DS_Source",
+						"type": "DatasetReference"
+					},
+					"name": "EmpSource"
+				},
+				{
+					"dataset": {
+						"referenceName": "DS_SOURCE2",
+						"type": "DatasetReference"
+					},
+					"name": "Destination"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "Destination",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				},
+				{
+					"dataset": {
+						"referenceName": "Destination",
+						"type": "DatasetReference"
+					},
+					"name": "sink2"
+				},
+				{
+					"dataset": {
+						"referenceName": "Destination",
+						"type": "DatasetReference"
+					},
+					"name": "sink3"
+				}
+			],
+			"transformations": [
+				{
+					"name": "join1"
+				},
+				{
+					"name": "split1"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          ID as short,",
+				"          Name as string,",
+				"          Gender as string,",
+				"          City as string,",
+				"          DeptID as short,",
+				"          DesignationID as short,",
+				"          Sal as integer,",
+				"          Date as date",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> EmpSource",
+				"source(output(",
+				"          ID as integer,",
+				"          DeptName as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> Destination",
+				"EmpSource, Destination join(DeptID == Destination@ID,",
+				"     joinType:'inner',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> join1",
+				"join1 split(equals(DeptID, 1),",
+				"     equals(DeptID, 2),",
+				"     disjoint: false) ~> split1@(DeptONE, DeptTwo, Default)",
+				"split1@DeptONE sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     partitionFileNames:['DeptOne'],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     mapColumn(",
+				"          ID = split1@DeptONE@ID,",
+				"          Name,",
+				"          Gender,",
+				"          City,",
+				"          DeptID,",
+				"          DesignationID,",
+				"          Sal,",
+				"          Date,",
+				"          DeptName",
+				"     ),",
+				"     partitionBy('hash', 1)) ~> sink1",
+				"split1@DeptTwo sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     partitionFileNames:['Dept2'],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     mapColumn(",
+				"          ID = split1@DeptTwo@ID,",
+				"          Name,",
+				"          Gender,",
+				"          City,",
+				"          DeptID,",
+				"          DesignationID,",
+				"          Sal,",
+				"          Date,",
+				"          DeptName",
+				"     ),",
+				"     partitionBy('hash', 1)) ~> sink2",
+				"split1@Default sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     partitionFileNames:['Default'],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     partitionBy('hash', 1)) ~> sink3"
+			]
+		}
+	}
+}

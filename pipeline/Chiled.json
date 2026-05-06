@@ -1,0 +1,45 @@
+{
+	"name": "Chiled",
+	"properties": {
+		"activities": [
+			{
+				"name": "Lookup1",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "SqlServerSource",
+						"sqlReaderQuery": {
+							"value": "select * from BasicAggirigarion where DepartmentName='@{pipeline().parameters.P_Chiledvalue}'",
+							"type": "Expression"
+						},
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "ParametarizedConnection",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": false
+				}
+			}
+		],
+		"parameters": {
+			"P_Chiledvalue": {
+				"type": "string",
+				"defaultValue": "civil"
+			}
+		},
+		"annotations": [],
+		"lastPublishTime": "2026-05-01T17:19:22Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}
