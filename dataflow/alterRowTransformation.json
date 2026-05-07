@@ -1,0 +1,47 @@
+{
+	"name": "alterRowTransformation",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "DS_Source",
+						"type": "DatasetReference"
+					},
+					"name": "EmployeeDetails"
+				}
+			],
+			"sinks": [],
+			"transformations": [
+				{
+					"name": "assert1"
+				},
+				{
+					"name": "derivedColumn1"
+				},
+				{
+					"name": "filter1"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          ID as short,",
+				"          Name as string,",
+				"          Gender as string,",
+				"          City as string,",
+				"          DeptID as short,",
+				"          DesignationID as short,",
+				"          Sal as integer,",
+				"          Date as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> EmployeeDetails",
+				"EmployeeDetails assert(expectTrue(!isNull(toDate(Date,'MM/dd/yyyy')), false, 'date')) ~> assert1",
+				"assert1 derive(iserrorrow = isError()) ~> derivedColumn1",
+				"derivedColumn1 filter(iserrorrow==false()) ~> filter1"
+			]
+		}
+	}
+}

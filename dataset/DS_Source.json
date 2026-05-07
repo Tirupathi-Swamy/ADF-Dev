@@ -2,13 +2,13 @@
 	"name": "DS_Source",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "AzureBlobStorage1",
+			"referenceName": "AzureBlobStorage2",
 			"type": "LinkedServiceReference"
 		},
 		"parameters": {
 			"FileName": {
 				"type": "string",
-				"defaultValue": "emp"
+				"defaultValue": "Employees.csv"
 			}
 		},
 		"annotations": [],
