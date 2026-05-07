@@ -26,6 +26,12 @@
 					"name": "derivedColumn1"
 				}
 			],
+			"udfLibraries": [
+				{
+					"referenceName": "DataFlowLibraries",
+					"type": "DataFlowReference"
+				}
+			],
 			"scriptLines": [
 				"source(output(",
 				"          ID as short,",
@@ -40,7 +46,7 @@
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false) ~> Employees",
-				"Employees derive(Gender = iif(Gender=='Male','01',iif(Gender=='FeMale','02','03'))) ~> derivedColumn1",
+				"Employees derive(Gender = GenderFunction(Gender)) ~> derivedColumn1",
 				"derivedColumn1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     partitionFileNames:['UDF'],",
