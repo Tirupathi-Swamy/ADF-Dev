@@ -162,7 +162,10 @@
 				"typeProperties": {
 					"dataset": {
 						"referenceName": "DS_Source",
-						"type": "DatasetReference"
+						"type": "DatasetReference",
+						"parameters": {
+							"FileName": "DSF"
+						}
 					},
 					"fieldList": [
 						"exists"
