@@ -437,7 +437,8 @@
 				},
 				"parameters": {
 					"filename": {
-						"type": "string"
+						"type": "string",
+						"defaultValue": "DJ"
 					}
 				},
 				"annotations": [],

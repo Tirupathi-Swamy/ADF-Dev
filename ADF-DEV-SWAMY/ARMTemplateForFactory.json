@@ -1146,6 +1146,56 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/UDF')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Data flow1",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "Udf",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"Employees": {
+										"FileName": "emp"
+									},
+									"sink1": {
+										"filename": "DJ"
+									}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/dataflows/Udf')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/UnitlAcivity')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -2217,7 +2267,8 @@
 				},
 				"parameters": {
 					"filename": {
-						"type": "string"
+						"type": "string",
+						"defaultValue": "DJ"
 					}
 				},
 				"annotations": [],
@@ -2787,6 +2838,65 @@
 				"[concat(variables('factoryId'), '/datasets/DS_Source')]",
 				"[concat(variables('factoryId'), '/datasets/DS_SOURCE2')]",
 				"[concat(variables('factoryId'), '/datasets/DS_DEST2')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Udf')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "DS_Source",
+								"type": "DatasetReference"
+							},
+							"name": "Employees"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "Destination",
+								"type": "DatasetReference"
+							},
+							"name": "sink1"
+						}
+					],
+					"transformations": [
+						{
+							"name": "derivedColumn1"
+						}
+					],
+					"scriptLines": [
+						"source(output(",
+						"          ID as short,",
+						"          Name as string,",
+						"          Gender as string,",
+						"          City as string,",
+						"          DeptID as short,",
+						"          DesignationID as short,",
+						"          Sal as integer,",
+						"          Date as date",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false) ~> Employees",
+						"Employees derive(Gender = iif(Gender=='Male','01',iif(Gender=='FeMale','02','03'))) ~> derivedColumn1",
+						"derivedColumn1 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     partitionFileNames:['UDF'],",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     partitionBy('hash', 1)) ~> sink1"
+					]
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/DS_Source')]",
+				"[concat(variables('factoryId'), '/datasets/Destination')]"
 			]
 		},
 		{
