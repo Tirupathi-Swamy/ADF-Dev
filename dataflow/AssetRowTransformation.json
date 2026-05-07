@@ -1,5 +1,5 @@
 {
-	"name": "alterRowTransformation",
+	"name": "AssetRowTransformation",
 	"properties": {
 		"type": "MappingDataFlow",
 		"typeProperties": {
@@ -12,7 +12,22 @@
 					"name": "EmployeeDetails"
 				}
 			],
-			"sinks": [],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "Destination",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				},
+				{
+					"dataset": {
+						"referenceName": "Destination",
+						"type": "DatasetReference"
+					},
+					"name": "sink2"
+				}
+			],
 			"transformations": [
 				{
 					"name": "assert1"
@@ -22,6 +37,9 @@
 				},
 				{
 					"name": "filter1"
+				},
+				{
+					"name": "filter2"
 				}
 			],
 			"scriptLines": [
@@ -40,7 +58,20 @@
 				"     ignoreNoFilesFound: false) ~> EmployeeDetails",
 				"EmployeeDetails assert(expectTrue(!isNull(toDate(Date,'MM/dd/yyyy')), false, 'date')) ~> assert1",
 				"assert1 derive(iserrorrow = isError()) ~> derivedColumn1",
-				"derivedColumn1 filter(iserrorrow==false()) ~> filter1"
+				"derivedColumn1 filter(iserrorrow==false()) ~> filter1",
+				"derivedColumn1 filter(iserrorrow==true()) ~> filter2",
+				"filter1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     partitionFileNames:['GoodData'],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     partitionBy('hash', 1)) ~> sink1",
+				"filter2 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     partitionFileNames:['BadData'],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     partitionBy('hash', 1)) ~> sink2"
 			]
 		}
 	}
