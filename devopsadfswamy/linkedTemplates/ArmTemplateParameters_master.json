@@ -1,0 +1,42 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "devopsadfswamy"
+		},
+		"AzureBlobStorage1_connectionString": {
+			"value": ""
+		},
+		"AzureBlobStorage2_connectionString": {
+			"value": ""
+		},
+		"SqlServer1_password": {
+			"value": ""
+		},
+		"SqlServer1_properties_typeProperties_server": {
+			"value": "DESKTOP-RP13NB0\\SSIS"
+		},
+		"SqlServer1_properties_typeProperties_database": {
+			"value": "@{linkedService().DbName}"
+		},
+		"SqlServer1_properties_typeProperties_userName": {
+			"value": "sa"
+		},
+		"SqlServer2_properties_typeProperties_server": {
+			"value": "@{linkedService().ServerName}"
+		},
+		"SqlServer2_properties_typeProperties_database": {
+			"value": "@{linkedService().DbName}"
+		},
+		"SqlServer2_properties_typeProperties_userName": {
+			"value": "@{linkedService().User}"
+		},
+		"containerUri": {
+			"value": ""
+		},
+		"containerSasToken": {
+			"value": ""
+		}
+	}
+}
