@@ -1,0 +1,59 @@
+{
+	"name": "P_DynamicallyDeleteTheFile",
+	"properties": {
+		"activities": [
+			{
+				"name": "Delete1",
+				"description": "Dynamically deleting the file that are present in the blob",
+				"type": "Delete",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataset": {
+						"referenceName": "DS_DynamicDelete",
+						"type": "DatasetReference",
+						"parameters": {
+							"FileName": {
+								"value": "@pipeline().parameters.P_FileName",
+								"type": "Expression"
+							},
+							"FolderName": {
+								"value": "@pipeline().parameters.P_FolderName",
+								"type": "Expression"
+							}
+						}
+					},
+					"logStorageSettings": {
+						"linkedServiceName": {
+							"referenceName": "AzureBlobStorage2",
+							"type": "LinkedServiceReference"
+						},
+						"path": "mycontainer"
+					},
+					"enableLogging": true,
+					"storeSettings": {
+						"type": "AzureBlobStorageReadSettings",
+						"recursive": true,
+						"enablePartitionDiscovery": false
+					}
+				}
+			}
+		],
+		"parameters": {
+			"P_FileName": {
+				"type": "string"
+			},
+			"P_FolderName": {
+				"type": "string"
+			}
+		},
+		"annotations": []
+	}
+}
