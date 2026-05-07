@@ -2672,6 +2672,23 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/DataFlowLibraries')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "UDFLibrary",
+				"typeProperties": {
+					"sources": [],
+					"sinks": [],
+					"transformations": [],
+					"scriptLines": [
+						"GenderFunction(string) as string = iif(i1=='Male','01',iif(i1=='FeMale','02','03'))"
+					]
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/ExistsTransformation')]",
 			"type": "Microsoft.DataFactory/factories/dataflows",
 			"apiVersion": "2018-06-01",
@@ -2870,6 +2887,12 @@
 							"name": "derivedColumn1"
 						}
 					],
+					"udfLibraries": [
+						{
+							"referenceName": "DataFlowLibraries",
+							"type": "DataFlowReference"
+						}
+					],
 					"scriptLines": [
 						"source(output(",
 						"          ID as short,",
@@ -2884,7 +2907,7 @@
 						"     allowSchemaDrift: true,",
 						"     validateSchema: false,",
 						"     ignoreNoFilesFound: false) ~> Employees",
-						"Employees derive(Gender = iif(Gender=='Male','01',iif(Gender=='FeMale','02','03'))) ~> derivedColumn1",
+						"Employees derive(Gender = GenderFunction(Gender)) ~> derivedColumn1",
 						"derivedColumn1 sink(allowSchemaDrift: true,",
 						"     validateSchema: false,",
 						"     partitionFileNames:['UDF'],",
@@ -2895,6 +2918,7 @@
 				}
 			},
 			"dependsOn": [
+				"[concat(variables('factoryId'), '/dataflows/DataFlowLibraries')]",
 				"[concat(variables('factoryId'), '/datasets/DS_Source')]",
 				"[concat(variables('factoryId'), '/datasets/Destination')]"
 			]
