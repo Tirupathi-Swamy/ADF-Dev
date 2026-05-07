@@ -1,0 +1,15 @@
+{
+	"name": "devopsadfswamy",
+	"properties": {
+		"trustModeClaimForMi": {
+			"value": "Enabled",
+			"editable": true
+		}
+	},
+	"location": "eastus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "0f7d650d-ab4b-4731-aad8-ec3c3445dea0",
+		"tenantId": "4de48a5c-6787-45dd-a11d-76a7749a23ce"
+	}
+}
