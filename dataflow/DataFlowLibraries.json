@@ -1,0 +1,14 @@
+{
+	"name": "DataFlowLibraries",
+	"properties": {
+		"type": "UDFLibrary",
+		"typeProperties": {
+			"sources": [],
+			"sinks": [],
+			"transformations": [],
+			"scriptLines": [
+				"GenderFunction(string) as string = iif(i1=='Male','01',iif(i1=='FeMale','02','03'))"
+			]
+		}
+	}
+}
