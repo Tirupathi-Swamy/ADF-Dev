@@ -131,7 +131,10 @@
 							"inputs": [
 								{
 									"referenceName": "DS_Source",
-									"type": "DatasetReference"
+									"type": "DatasetReference",
+									"parameters": {
+										"FileName": "DR"
+									}
 								}
 							],
 							"outputs": [
