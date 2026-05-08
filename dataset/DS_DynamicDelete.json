@@ -7,10 +7,12 @@
 		},
 		"parameters": {
 			"FileName": {
-				"type": "string"
+				"type": "string",
+				"defaultValue": "f"
 			},
 			"FolderName": {
-				"type": "string"
+				"type": "string",
+				"defaultValue": "f"
 			}
 		},
 		"annotations": [],
